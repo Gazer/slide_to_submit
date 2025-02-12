@@ -4,7 +4,6 @@ import 'package:slide_to_submit/slide_to_submit.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({required this.title}) : super();
 
   final String title;
 
@@ -49,7 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 onFinish();
               },
             ),
-            SizedBox(height: 16.0,),
+            SizedBox(
+              height: 16.0,
+            ),
             SlideToSubmitWidget(
               icon: Icons.arrow_forward,
               text: "Go! Go!",

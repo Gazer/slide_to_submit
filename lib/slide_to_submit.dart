@@ -5,7 +5,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 /// Callback that will receive the caller when the user submit the action.
-typedef SlideToSubmitCallback = void Function(Function onFinish, Function onError);
+typedef SlideToSubmitCallback = void Function(
+    Function onFinish, Function onError);
 
 /// Create a widget that when is slided triggers a submit action
 ///
@@ -24,11 +25,11 @@ class SlideToSubmitWidget extends StatefulWidget {
   final SlideToSubmitCallback onSubmit;
 
   const SlideToSubmitWidget({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    @required this.color,
-    @required this.onSubmit}) : super(key: key);
+    required this.icon,
+    required this.text,
+    required this.color,
+    required this.onSubmit,
+  }) : super();
 
   @override
   _SlideToSubmitWidgetState createState() => _SlideToSubmitWidgetState();
@@ -43,7 +44,7 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
   bool success = false;
   double dragStartAt = 0;
 
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -75,7 +76,7 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
     setState(() {
       dragging = true;
       dragStartAt = details.globalPosition.dx;
-      widgetWidth = context.size.width;
+      widgetWidth = context.size?.width ?? 0.0;
     });
   }
 
@@ -83,8 +84,8 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
     if (dragging) {
       var maxDragDistance = widgetWidth - 80.0;
 
-      var distance = min(
-          maxDragDistance, details.globalPosition.dx - dragStartAt);
+      var distance =
+          min(maxDragDistance, details.globalPosition.dx - dragStartAt);
 
       if (distance > 0) {
         setState(() {
@@ -145,24 +146,25 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
                 borderRadius: BorderRadius.circular(30.0),
                 color: Colors.white,
               ),
-              child: Icon(widget.icon,
+              child: Icon(
+                widget.icon,
                 size: 40.0,
                 color: widget.color,
               ),
             ),
           ),
           Container(
-            width: dragging
-                ? (widgetWidth * (1.0 - slidePercent) - 80)
-                : null,
+            width: dragging ? (widgetWidth * (1.0 - slidePercent) - 80) : null,
             child: Padding(
               padding: EdgeInsets.only(left: 16.0, right: 36.0),
-              child: Text(widget.text,
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  )),
+              child: Text(
+                widget.text,
+                maxLines: 1,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
           )
         ],
@@ -177,7 +179,6 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40.0),
         color: widget.color,
-
       ),
       child: AnimatedCrossFade(
         firstChild: Center(
@@ -189,12 +190,14 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
           ),
         ),
         secondChild: Center(
-          child: Icon(Icons.check,
+          child: Icon(
+            Icons.check,
             size: 30,
-            color: Colors.white,),
+            color: Colors.white,
+          ),
         ),
-        crossFadeState: success ? CrossFadeState.showSecond : CrossFadeState
-            .showFirst,
+        crossFadeState:
+            success ? CrossFadeState.showSecond : CrossFadeState.showFirst,
         duration: Duration(milliseconds: 750),
       ),
     );
