@@ -1,6 +1,6 @@
 name: slide_to_submit
 description: A Flutter widget that allow the user submit an action sliding a widget.
-version: 0.0.1
+version: 0.1.0
 homepage: http://gazer.com.ar/
 
 environment:
