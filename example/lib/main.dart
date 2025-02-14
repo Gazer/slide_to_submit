@@ -38,28 +38,87 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SlideToSubmitWidget(
-              icon: Icons.arrow_forward,
-              text: "Deslizá para transferir",
-              color: Colors.red,
-              onSubmit: (onFinish, onError) async {
-                await pause();
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Deslizá para transferir",
+                color: Colors.red,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
 
-                onFinish();
-              },
+                  onFinish();
+                },
+              ),
             ),
-            SizedBox(
-              height: 16.0,
-            ),
-            SlideToSubmitWidget(
-              icon: Icons.arrow_forward,
-              text: "Go! Go!",
-              color: Colors.green,
-              onSubmit: (onFinish, onError) async {
-                await pause();
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Go! Go!",
+                color: Colors.green,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
 
-                onError();
-              },
+                  onError();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Deslizá para transferir",
+                color: Colors.red,
+                height: 60,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
+
+                  onFinish();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Go! Go!",
+                color: Colors.green,
+                height: 40,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
+
+                  onError();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Deslizá para transferir",
+                color: Colors.red,
+                height: 160,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
+
+                  onFinish();
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SlideToSubmitWidget(
+                icon: Icons.arrow_forward,
+                text: "Go! Go!",
+                color: Colors.green,
+                height: 140,
+                onSubmit: (onFinish, onError) async {
+                  await pause();
+
+                  onError();
+                },
+              ),
             )
           ],
         ),

@@ -23,12 +23,15 @@ class SlideToSubmitWidget extends StatefulWidget {
   final String text;
   final Color color;
   final SlideToSubmitCallback onSubmit;
+  final double height;
 
   const SlideToSubmitWidget({
+    super.key,
     required this.icon,
     required this.text,
     required this.color,
     required this.onSubmit,
+    this.height = 80,
   }) : super();
 
   @override
@@ -82,7 +85,7 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
 
   _dragUpdate(DragUpdateDetails details) {
     if (dragging) {
-      var maxDragDistance = widgetWidth - 80.0;
+      var maxDragDistance = widgetWidth - widget.height;
 
       var distance =
           min(maxDragDistance, details.globalPosition.dx - dragStartAt);
@@ -97,7 +100,10 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
 
   _dragEnd(DragEndDetails details) {
     setState(() {
-      if (widgetWidth * (1.0 - slidePercent) == 80) {
+      print(
+          "${(widgetWidth * (1.0 - slidePercent)).toInt()} <= ${widget.height.toInt()}");
+      if ((widgetWidth * (1.0 - slidePercent)).toInt() <=
+          widget.height.toInt()) {
         widget.onSubmit(_onFinish, _onError);
 
         loading = true;
@@ -125,44 +131,46 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
 
   Widget _normal() {
     return Container(
-      height: 80.0,
-      width: dragging ? widgetWidth * (1.0 - slidePercent) : null,
+      height: widget.height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40.0),
+        borderRadius: BorderRadius.circular(widget.height / 2),
         color: widget.color,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          SizedBox(width: 10),
+          SizedBox(width: widget.height * 0.125),
           GestureDetector(
             onHorizontalDragStart: _dragStart,
             onHorizontalDragUpdate: _dragUpdate,
             onHorizontalDragEnd: _dragEnd,
             child: Container(
-              width: 60.0,
-              height: 60.0,
+              width: widget.height * 0.75,
+              height: widget.height * 0.75,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(widget.height * 0.375),
                 color: Colors.white,
               ),
               child: Icon(
                 widget.icon,
-                size: 40.0,
+                size: widget.height / 2,
                 color: widget.color,
               ),
             ),
           ),
           Container(
-            width: dragging ? (widgetWidth * (1.0 - slidePercent) - 80) : null,
+            width: dragging
+                ? (widgetWidth * (1.0 - slidePercent) - widget.height)
+                : null,
             child: Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 36.0),
+              padding: EdgeInsets.only(
+                  left: widget.height * 0.2, right: widget.height * 0.45),
               child: Text(
                 widget.text,
                 maxLines: 1,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontSize: widget.height / 4,
                 ),
               ),
             ),
@@ -174,16 +182,16 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
 
   Widget _loading() {
     return Container(
-      height: 80.0,
-      width: 80.0,
+      height: widget.height,
+      width: widget.height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40.0),
+        borderRadius: BorderRadius.circular(widget.height / 2),
         color: widget.color,
       ),
       child: AnimatedCrossFade(
         firstChild: Center(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(widget.height / 4),
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(Colors.white),
             ),
@@ -192,7 +200,7 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
         secondChild: Center(
           child: Icon(
             Icons.check,
-            size: 30,
+            size: widget.height * 0.375,
             color: Colors.white,
           ),
         ),
@@ -212,7 +220,7 @@ class _SlideToSubmitWidgetState extends State<SlideToSubmitWidget>
         SizedBox(
           width: dragging ? widgetWidth * slidePercent : 0,
         ),
-        loading ? _loading() : _normal(),
+        loading ? _loading() : Expanded(child: _normal()),
       ],
     );
   }
